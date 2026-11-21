@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Entre deux rives — Relecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf7f2; --card:#ffffff; --ink:#1f1d1a; --muted:#6b655c; --line:#e4ddd2;
+    --accent:#3d5a6c; --accent-soft:#e8eef2; --warn:#9a3b2e; --warn-soft:#f6e7e4; --ok:#2f6b4f; --ok-soft:#e5f1ea;
+    --radius:10px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 18px 80px}
+  header{text-align:center;margin-bottom:28px}
+  header h1{font:600 2.1rem/1.15 "EB Garamond",Georgia,serif;letter-spacing:.06em;margin:0}
+  header .sub{font:italic 1.15rem "EB Garamond",Georgia,serif;color:var(--muted);margin-top:4px}
+  header .tag{display:inline-block;margin-top:14px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:99px}
+  .intro{font:1.08rem/1.6 "EB Garamond",Georgia,serif;color:#3a362f;margin:0 0 24px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:18px}
+  h2{font:600 1.35rem "EB Garamond",Georgia,serif;margin:0 0 4px}
+  .hint{color:var(--muted);font-size:.88rem;margin:0 0 16px}
+  label{display:block;font-weight:500;font-size:.92rem;margin:14px 0 6px}
+  label .opt{font-weight:400;color:var(--muted)}
+  input[type=text],input[type=number],select,textarea{width:100%;font:inherit;color:inherit;background:#fff;border:1px solid #cfc7ba;border-radius:8px;padding:10px 12px}
+  textarea{min-height:84px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  .row{display:grid;grid-template-columns:120px 1fr;gap:12px}
+  @media (max-width:520px){.row{grid-template-columns:1fr}}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips label{margin:0;font-weight:400;display:flex;align-items:center;gap:6px;border:1px solid #cfc7ba;border-radius:99px;padding:6px 12px;cursor:pointer;background:#fff}
+  .chips input{margin:0;accent-color:var(--accent)}
+  .chips label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+  .scale{display:flex;gap:6px}
+  .scale label{flex:1;justify-content:center;padding:8px 0}
+  .scale-ends{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-top:4px}
+  .btn{font:600 .95rem Inter,system-ui,sans-serif;border:0;border-radius:8px;padding:11px 18px;cursor:pointer;background:var(--accent);color:#fff}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  .btn.small{padding:6px 10px;font-size:.82rem}
+  .btn.danger{background:transparent;color:var(--warn);border:1px solid #e0c3bd}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;align-items:center}
+  .tabs{display:flex;gap:6px;margin-bottom:18px;background:#efe9df;padding:5px;border-radius:12px}
+  .tabs button{flex:1;border:0;background:transparent;font:600 .92rem Inter,system-ui,sans-serif;padding:10px;border-radius:9px;cursor:pointer;color:var(--muted)}
+  .tabs button[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .badge{display:inline-block;min-width:22px;padding:1px 7px;border-radius:99px;background:var(--accent);color:#fff;font-size:.75rem;margin-left:6px}
+  .list{list-style:none;margin:0;padding:0}
+  .item{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:10px;background:#fffdf9}
+  .item-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.85rem}
+  .pill{padding:2px 8px;border-radius:99px;background:#efe9df;font-size:.78rem}
+  .pill.b{background:var(--warn-soft);color:var(--warn);font-weight:600}
+  .pill.a{background:#fbf1dc;color:#7a5a12}
+  .item p{margin:6px 0 0;font-size:.92rem}
+  .item .q{font-family:"EB Garamond",Georgia,serif;font-size:1.05rem;font-style:italic}
+  .item .tools{margin-left:auto;display:flex;gap:6px}
+  .empty{color:var(--muted);font-style:italic;text-align:center;padding:14px}
+  .status{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:.92rem;display:none}
+  .status.show{display:block}
+  .status.ok{background:var(--ok-soft);color:var(--ok)}
+  .status.err{background:var(--warn-soft);color:var(--warn)}
+  .status.info{background:var(--accent-soft);color:var(--accent)}
+  .fallback{display:none;margin-top:12px}
+  .fallback textarea{min-height:180px;font:.85rem/1.45 ui-monospace,Menlo,Consolas,monospace}
+  .hp{position:absolute;left:-9999px}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>ENTRE DEUX RIVES</h1>
+    <div class="sub">D’un juriste à un homme des réseaux</div>
+    <div class="tag">Relecture · version de correction 2</div>
+  </header>
+
+  <p class="intro">Merci d’avoir accepté de relire mon livre. Note ici tes corrections au fil de ta lecture : elles restent enregistrées sur ton appareil, même si tu fermes la page. Quand tu veux, envoie-les-moi d’un seul clic. À la fin, laisse-moi ton avis global. — Mohamed</p>
+
+  <section class="card">
+    <h2>Qui es-tu ?</h2>
+    <label for="nom">Ton prénom</label>
+    <input type="text" id="nom" autocomplete="given-name" maxlength="60" placeholder="Ex. : Salma">
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-corr" aria-selected="true" aria-controls="panel-corr">Corrections <span class="badge" id="badge">0</span></button>
+    <button role="tab" id="tab-avis" aria-selected="false" aria-controls="panel-avis">Avis global</button>
+  </div>
+
+  <!-- ===================== CORRECTIONS ===================== -->
+  <div id="panel-corr" role="tabpanel">
+    <section class="card">
+      <h2 id="form-title">Ajouter une correction</h2>
+      <p class="hint">Le numéro de page est celui imprimé en bas de chaque page (1 à 147).</p>
+      <form id="f-corr" novalidate>
+        <div class="row">
+          <div>
+            <label for="page">Page</label>
+            <input type="number" id="page" min="1" max="147" inputmode="numeric" required>
+          </div>
+          <div>
+            <label for="type">Type de problème</label>
+            <select id="type" required>
+              <option value="">Choisir…</option>
+              <option>Orthographe</option>
+              <option>Grammaire / conjugaison</option>
+              <option>Ponctuation / typographie</option>
+              <option>Formulation / style</option>
+              <option>Incohérence (date, nom, lieu, fait)</option>
+              <option>Passage confus ou trop long</option>
+              <option>Passage sensible (personne réelle, propos blessant)</option>
+              <option>Mise en page / image</option>
+              <option>Autre</option>
+            </select>
+          </div>
+        </div>
+        <label for="passage">Passage concerné <span class="opt">— recopie quelques mots exacts</span></label>
+        <textarea id="passage" maxlength="1500" required></textarea>
+        <label for="propo">Ce que tu proposes <span class="opt">(facultatif)</span></label>
+        <textarea id="propo" maxlength="1500"></textarea>
+        <label>Importance</label>
+        <div class="chips" id="imp">
+          <label><input type="radio" name="imp" value="Mineure" checked> Mineure</label>
+          <label><input type="radio" name="imp" value="À corriger"> À corriger</label>
+          <label><input type="radio" name="imp" value="Bloquante"> Bloquante</label>
+        </div>
+        <div class="actions">
+          <button class="btn" type="submit" id="btn-add">Ajouter à ma liste</button>
+          <button class="btn ghost" type="button" id="btn-cancel" hidden>Annuler la modification</button>
+        </div>
+        <div class="status" id="st-add" role="status"></div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Ma liste <span class="opt" id="count-label" style="font:400 .9rem Inter,sans-serif;color:var(--muted)"></span></h2>
+      <p class="hint">Rien n’est envoyé tant que tu ne cliques pas sur « Envoyer ».</p>
+      <ul class="list" id="list"></ul>
+      <div class="actions">
+        <button class="btn" id="btn-send-corr" disabled>Envoyer mes corrections</button>
+        <button class="btn ghost small" id="btn-csv" disabled>Télécharger (CSV)</button>
+      </div>
+      <div class="status" id="st-corr" role="status"></div>
+      <div class="fallback" id="fb-corr">
+        <p class="hint">Copie ce texte et envoie-le-moi (WhatsApp ou e-mail) :</p>
+        <textarea readonly id="fb-corr-text"></textarea>
+        <div class="actions"><button class="btn small" data-copy="fb-corr-text">Copier le texte</button></div>
+      </div>
+      <p class="hint" id="sent-info" style="margin-top:14px"></p>
+    </section>
+  </div>
+
+  <!-- ===================== AVIS GLOBAL ===================== -->
+  <div id="panel-avis" role="tabpanel" hidden>
+    <section class="card">
+      <h2>Ton avis global</h2>
+      <p class="hint">À remplir une fois ta lecture terminée. Ton brouillon est gardé sur ton appareil.</p>
+      <form id="f-avis" novalidate>
+        <label>Note globale du livre</label>
+        <div class="chips scale" data-name="note"></div>
+        <div class="scale-ends"><span>Faible</span><span>Excellent</span></div>
+
+        <label>Facilité de lecture (rythme, clarté)</label>
+        <div class="chips scale" data-name="lecture"></div>
+        <div class="scale-ends"><span>Difficile</span><span>Très fluide</span></div>
+
+        <label for="a-forts">Les passages qui t’ont le plus marqué</label>
+        <textarea id="a-forts" maxlength="2000"></textarea>
+
+        <label for="a-longs">Les passages trop longs, confus ou à couper</label>
+        <textarea id="a-longs" maxlength="2000"></textarea>
+
+        <label for="a-sensible">Un passage t’a-t-il gêné, ou pourrait-il blesser une personne reconnaissable ?</label>
+        <textarea id="a-sensible" maxlength="2000"></textarea>
+
+        <label>Le titre « Entre deux rives » te parle-t-il ?</label>
+        <div class="chips">
+          <label><input type="radio" name="titre" value="Oui, il colle au livre"> Oui, il colle au livre</label>
+          <label><input type="radio" name="titre" value="Moyennement"> Moyennement</label>
+          <label><input type="radio" name="titre" value="Non"> Non</label>
+        </div>
+
+        <label>Recommanderais-tu ce livre ?</label>
+        <div class="chips">
+          <label><input type="radio" name="reco" value="Oui"> Oui</label>
+          <label><input type="radio" name="reco" value="Peut-être"> Peut-être</label>
+          <label><input type="radio" name="reco" value="Non"> Non</label>
+        </div>
+
+        <label for="a-mot">Un dernier mot pour Mohamed <span class="opt">(facultatif)</span></label>
+        <textarea id="a-mot" maxlength="2000"></textarea>
+
+        <div class="actions"><button class="btn" type="submit" id="btn-send-avis">Envoyer mon avis</button></div>
+        <div class="status" id="st-avis" role="status"></div>
+        <div class="fallback" id="fb-avis">
+          <p class="hint">Copie ce texte et envoie-le-moi (WhatsApp ou e-mail) :</p>
+          <textarea readonly id="fb-avis-text"></textarea>
+          <div class="actions"><button class="btn small" data-copy="fb-avis-text">Copier le texte</button></div>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <input type="text" id="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <footer>Tes réponses ne sont envoyées qu’à l’auteur. Elles ne seront ni publiées ni partagées.</footer>
+</div>
+
+<script>
+/* ============ CONFIGURATION ============
+   Colle ici l'URL de ton application Web Apps Script (elle se termine par /exec).
+   Tant qu'elle n'est pas renseignée, la page propose de copier le texte à la place. */
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby60lhm2iIhxHTflNWYbHPhL-jAebwsoQv5EUI9j6-8bDG1q4sxeg-Mu_-aLUBsWSbY/exec";
+const MAX_PAGE = 147;
+/* ====================================== */
+
+const KEY_READY = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(SCRIPT_URL);
+const newId = () => Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+const LS = "edr-relecture-v1";
+const $ = (id) => document.getElementById(id);
+
+function load(){
+  try { return JSON.parse(localStorage.getItem(LS)) || {}; } catch(e){ return {}; }
+}
+let S = Object.assign({nom:"", items:[], sent:0, avis:{}, avisSent:false}, load());
+function save(){ try { localStorage.setItem(LS, JSON.stringify(S)); } catch(e){} }
+
+function status(el, kind, msg){
+  el.className = "status show " + kind; el.textContent = msg;
+}
+function clearStatus(el){ el.className = "status"; el.textContent = ""; }
+
+/* ---------- Onglets ---------- */
+function showTab(which){
+  const corr = which === "corr";
+  $("tab-corr").setAttribute("aria-selected", corr);
+  $("tab-avis").setAttribute("aria-selected", !corr);
+  $("panel-corr").hidden = !corr;
+  $("panel-avis").hidden = corr;
+}
+$("tab-corr").onclick = () => showTab("corr");
+$("tab-avis").onclick = () => showTab("avis");
+
+/* ---------- Prénom ---------- */
+$("nom").value = S.nom;
+$("nom").addEventListener("input", (e) => { S.nom = e.target.value.trim(); save(); });
+function needName(stEl){
+  if (S.nom) return false;
+  status(stEl, "err", "Indique d’abord ton prénom, tout en haut de la page.");
+  $("nom").focus(); return true;
+}
+
+/* ---------- Corrections ---------- */
+let editing = null;
+const fCorr = $("f-corr");
+
+fCorr.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const st = $("st-add"); clearStatus(st);
+  const page = parseInt($("page").value, 10);
+  const type = $("type").value;
+  const passage = $("passage").value.trim();
+  const propo = $("propo").value.trim();
+  const imp = fCorr.querySelector('input[name=imp]:checked').value;
+  if (!(page >= 1 && page <= MAX_PAGE)) return status(st, "err", `Indique une page entre 1 et ${MAX_PAGE}.`);
+  if (!type) return status(st, "err", "Choisis le type de problème.");
+  if (!passage) return status(st, "err", "Recopie quelques mots du passage concerné.");
+  const it = {page, type, passage, propo, imp};
+  if (editing !== null) { S.items[editing] = it; editing = null; }
+  else S.items.push(it);
+  S.lotId = null; save(); render(); resetForm();
+  status(st, "ok", "Ajouté à ta liste.");
+  setTimeout(() => clearStatus(st), 2500);
+});
+$("btn-cancel").onclick = () => { editing = null; resetForm(); };
+
+function resetForm(){
+  $("page").value = ""; $("type").value = ""; $("passage").value = ""; $("propo").value = "";
+  fCorr.querySelector('input[name=imp][value="Mineure"]').checked = true;
+  $("btn-add").textContent = "Ajouter à ma liste";
+  $("form-title").textContent = "Ajouter une correction";
+  $("btn-cancel").hidden = true;
+}
+
+function edit(i){
+  const it = S.items[i]; editing = i;
+  $("page").value = it.page; $("type").value = it.type; $("passage").value = it.passage; $("propo").value = it.propo;
+  fCorr.querySelector(`input[name=imp][value="${it.imp}"]`).checked = true;
+  $("btn-add").textContent = "Enregistrer la modification";
+  $("form-title").textContent = "Modifier la correction";
+  $("btn-cancel").hidden = false;
+  fCorr.scrollIntoView({behavior:"smooth", block:"start"});
+}
+function removeItem(i){
+  if (!confirmDelete()) return;
+  S.items.splice(i, 1); S.lotId = null;
+  if (editing === i) { editing = null; resetForm(); }
+  save(); render();
+}
+function confirmDelete(){ return window.confirm ? window.confirm("Supprimer cette correction ?") : true; }
+
+function render(){
+  const ul = $("list"); ul.textContent = "";
+  const n = S.items.length;
+  $("badge").textContent = n;
+  $("count-label").textContent = n ? `· ${n} en attente d’envoi` : "";
+  $("btn-send-corr").disabled = n === 0;
+  $("btn-csv").disabled = n === 0;
+  $("btn-send-corr").textContent = n > 1 ? `Envoyer mes ${n} corrections` : "Envoyer ma correction";
+  if (!n){
+    const li = document.createElement("li"); li.className = "empty";
+    li.textContent = "Aucune correction pour l’instant."; ul.appendChild(li);
+  }
+  S.items
+    .map((it, i) => ({it, i}))
+    .sort((a, b) => a.it.page - b.it.page)
+    .forEach(({it, i}) => {
+      const li = document.createElement("li"); li.className = "item";
+      const head = document.createElement("div"); head.className = "item-head";
+      const p = document.createElement("strong"); p.textContent = "p. " + it.page;
+      const t = document.createElement("span"); t.className = "pill"; t.textContent = it.type;
+      const im = document.createElement("span");
+      im.className = "pill" + (it.imp === "Bloquante" ? " b" : it.imp === "À corriger" ? " a" : "");
+      im.textContent = it.imp;
+      const tools = document.createElement("span"); tools.className = "tools";
+      const be = document.createElement("button"); be.className = "btn ghost small"; be.textContent = "Modifier"; be.onclick = () => edit(i);
+      const bd = document.createElement("button"); bd.className = "btn danger small"; bd.textContent = "Supprimer"; bd.onclick = () => removeItem(i);
+      tools.append(be, bd); head.append(p, t, im, tools);
+      const q = document.createElement("p"); q.className = "q"; q.textContent = "« " + it.passage + " »";
+      li.append(head, q);
+      if (it.propo){ const pr = document.createElement("p"); pr.textContent = "→ " + it.propo; li.appendChild(pr); }
+      ul.appendChild(li);
+    });
+  $("sent-info").textContent = S.sent ? `Déjà envoyées : ${S.sent} correction${S.sent > 1 ? "s" : ""}. Merci !` : "";
+}
+
+function corrText(){
+  const order = {"Bloquante":0, "À corriger":1, "Mineure":2};
+  const items = [...S.items].sort((a, b) => (order[a.imp] - order[b.imp]) || (a.page - b.page));
+  return `Relecture de ${S.nom || "?"} — ${items.length} correction(s)\n\n` + items.map((it, k) =>
+    `${k + 1}. [${it.imp}] p. ${it.page} — ${it.type}\n   Passage : « ${it.passage} »` + (it.propo ? `\n   Proposition : ${it.propo}` : "")
+  ).join("\n\n");
+}
+
+async function send(payload){
+  const res = await fetch(SCRIPT_URL, {
+    method: "POST",
+    headers: {"Content-Type": "text/plain;charset=utf-8"},   // requête simple : pas de pré-vérification CORS
+    body: JSON.stringify(Object.assign({website: $("website").value}, payload))
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.ok) throw new Error(data.error || ("HTTP " + res.status));
+  return data;
+}
+
+function fallback(boxId, textId, text){
+  $(textId).value = text; $(boxId).style.display = "block";
+}
+
+$("btn-send-corr").onclick = async () => {
+  const st = $("st-corr"); clearStatus(st); $("fb-corr").style.display = "none";
+  if (needName(st) || !S.items.length) return;
+  const text = corrText();
+  if (!KEY_READY){
+    status(st, "info", "L’envoi automatique n’est pas encore activé.");
+    return fallback("fb-corr", "fb-corr-text", text);
+  }
+  const btn = $("btn-send-corr"); btn.disabled = true; btn.textContent = "Envoi en cours…";
+  try {
+    if (!S.lotId) { S.lotId = newId(); save(); }
+    await send({kind: "corrections", nom: S.nom, lot: S.lotId, items: S.items});
+    S.sent += S.items.length; S.items = []; S.lotId = null; save(); render();
+    status(st, "ok", "Envoyé, merci ! Tu peux continuer à ajouter des corrections et les envoyer plus tard.");
+  } catch (err){
+    render();
+    status(st, "err", "L’envoi a échoué. Ta liste est conservée. Réessaie plus tard, ou copie le texte ci-dessous.");
+    fallback("fb-corr", "fb-corr-text", text);
+  }
+};
+
+$("btn-csv").onclick = () => {
+  const esc = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const rows = [["Relecteur","Page","Type","Importance","Passage","Proposition"]]
+    .concat(S.items.map(it => [S.nom, it.page, it.type, it.imp, it.passage, it.propo]));
+  const csv = "﻿" + rows.map(r => r.map(esc).join(";")).join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], {type: "text/csv;charset=utf-8"}));
+  a.download = `relecture-${(S.nom || "relecteur").replace(/\s+/g, "-")}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+};
+
+/* ---------- Avis global ---------- */
+document.querySelectorAll(".scale").forEach((box) => {
+  const name = box.dataset.name;
+  for (let v = 1; v <= 5; v++){
+    const l = document.createElement("label");
+    const r = document.createElement("input"); r.type = "radio"; r.name = name; r.value = v;
+    l.append(r, document.createTextNode(" " + v)); box.appendChild(l);
+  }
+});
+const fAvis = $("f-avis");
+const AVIS_TXT = {forts: "a-forts", longs: "a-longs", sensible: "a-sensible", mot: "a-mot"};
+const AVIS_RADIO = ["note", "lecture", "titre", "reco"];
+
+function restoreAvis(){
+  for (const [k, id] of Object.entries(AVIS_TXT)) $(id).value = S.avis[k] || "";
+  AVIS_RADIO.forEach((n) => {
+    if (S.avis[n] == null) return;
+    const r = fAvis.querySelector(`input[name="${n}"][value="${S.avis[n]}"]`); if (r) r.checked = true;
+  });
+  if (S.avisSent) status($("st-avis"), "ok", "Ton avis a déjà été envoyé. Tu peux le modifier et le renvoyer si besoin.");
+}
+fAvis.addEventListener("input", () => {
+  for (const [k, id] of Object.entries(AVIS_TXT)) S.avis[k] = $(id).value;
+  AVIS_RADIO.forEach((n) => { const r = fAvis.querySelector(`input[name="${n}"]:checked`); S.avis[n] = r ? r.value : null; });
+  save();
+});
+
+function avisText(){
+  const a = S.avis;
+  return `Avis global de ${S.nom || "?"}\n\n` +
+    `Note globale : ${a.note || "—"}/5\nFacilité de lecture : ${a.lecture || "—"}/5\n` +
+    `Titre : ${a.titre || "—"}\nRecommanderait le livre : ${a.reco || "—"}\n\n` +
+    `Passages marquants :\n${a.forts || "—"}\n\nPassages trop longs / confus :\n${a.longs || "—"}\n\n` +
+    `Passage gênant ou sensible :\n${a.sensible || "—"}\n\nDernier mot :\n${a.mot || "—"}`;
+}
+
+fAvis.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const st = $("st-avis"); clearStatus(st); $("fb-avis").style.display = "none";
+  if (needName(st)) return;
+  if (!S.avis.note || !S.avis.lecture || !S.avis.reco)
+    return status(st, "err", "Merci de donner au moins la note globale, la facilité de lecture et ta recommandation.");
+  const text = avisText();
+  if (!KEY_READY){
+    status(st, "info", "L’envoi automatique n’est pas encore activé.");
+    return fallback("fb-avis", "fb-avis-text", text);
+  }
+  const btn = $("btn-send-avis"); btn.disabled = true; btn.textContent = "Envoi en cours…";
+  try {
+    if (!S.avisId) { S.avisId = newId(); save(); }
+    await send({kind: "avis", nom: S.nom, id: S.avisId, avis: S.avis});
+    S.avisSent = true; save();
+    status(st, "ok", "Merci infiniment pour ta lecture et ton avis !");
+  } catch (err){
+    status(st, "err", "L’envoi a échoué. Ton avis est conservé. Réessaie plus tard, ou copie le texte ci-dessous.");
+    fallback("fb-avis", "fb-avis-text", text);
+  } finally {
+    btn.disabled = false; btn.textContent = "Envoyer mon avis";
+  }
+});
+
+/* ---------- Copier ---------- */
+document.querySelectorAll("[data-copy]").forEach((b) => {
+  b.addEventListener("click", async () => {
+    const ta = $(b.dataset.copy);
+    try { await navigator.clipboard.writeText(ta.value); }
+    catch (e){ ta.select(); document.execCommand && document.execCommand("copy"); }
+    b.textContent = "Copié !"; setTimeout(() => (b.textContent = "Copier le texte"), 2000);
+  });
+});
+
+render(); restoreAvis();
+</script>
+</body>
+</html>
